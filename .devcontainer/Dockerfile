@@ -21,12 +21,18 @@ RUN apt-get update && \
 # install ROS2
 RUN apt-get update && \
     apt-get install -y ros-humble-desktop
+    
+# install ROS2 development tools
+RUN apt-get -y install python3-pip python3-colcon-common-extensions
 
 # install Gazebo
 RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
     wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add - && \
     apt-get update && \
     apt-get install -y gazebo
+
+# install Gazebo ROS packages
+RUN apt-get install -y ros-humble-gazebo-ros-pkgs
 
 # Expose the Gazebo port
 EXPOSE 11345
