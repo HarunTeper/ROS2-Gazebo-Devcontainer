@@ -1,7 +1,15 @@
 ARG VARIANT=ubuntu-22.04
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
+# --- Configure environment ---
+
+# Configure DEBIAN_FRONTEND to avoid warnings
 ENV DEBIAN_FRONTEND=noninteractive
+
+# set up work directory
+WORKDIR /home/vscode/workspace
+
+# --- Install ROS2 ---
 
 # install locales for UTF-8 support
 RUN apt-get update && apt-get install -y locales && \
@@ -25,6 +33,8 @@ RUN apt-get update && \
 # install ROS2 development tools
 RUN apt-get -y install python3-pip python3-colcon-common-extensions
 
+# --- Install Gazebo ---
+
 # install Gazebo
 RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
     wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add - && \
@@ -36,5 +46,20 @@ RUN apt-get install -y ros-humble-gazebo-ros-pkgs
 
 # Expose the Gazebo port
 EXPOSE 11345
+
+# --- Set up user ---
+
+# set user
+USER vscode
+
+# source ROS2 setup file
+RUN echo '. /opt/ros/humble/setup.sh' >> /home/vscode/.bashrc
+
+# configure environment variables
+ENV DISPLAY=unix:1
+ENV ROS_LOCALHOST_ONLY=0
+ENV ROS_DOMAIN_ID=0
+
+# --- Set up entrypoint ---
 
 SHELL ["/bin/bash", "-c"]
