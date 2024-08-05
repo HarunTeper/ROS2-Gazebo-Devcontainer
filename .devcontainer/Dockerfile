@@ -29,7 +29,7 @@ RUN apt-get update && \
 # install ROS2
 RUN apt-get update && \
     apt-get install -y ros-humble-desktop
-    
+
 # install ROS2 development tools
 RUN apt-get -y install python3-pip python3-colcon-common-extensions
 
@@ -46,6 +46,12 @@ RUN apt-get install -y ros-humble-gazebo-ros-pkgs
 
 # Expose the Gazebo port
 EXPOSE 11345
+
+# --- Install DevTools ---
+
+RUN apt-get update && \
+    apt-get -y install clangd clang-format clang-tidy cppcheck && \
+    pip install pep8 pylint
 
 # --- Set up user ---
 

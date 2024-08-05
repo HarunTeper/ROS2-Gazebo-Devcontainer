@@ -20,8 +20,17 @@
 
 	// Configure VS Code extensions
 	"customizations": {
-		"extensions": [
-			"llvm-vs-code-extensions.vscode-clangd"
-		]
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cmake-tools",
+				"llvm-vs-code-extensions.vscode-clangd",
+				"xaver.clang-format",
+				"ms-python.python",
+				"donjayamanne.python-extension-pack",
+				"donjayamanne.python-environment-manager",
+				"ms-azuretools.vscode-docker",
+				"ms-python.autopep8"
+			]
+		}
 	}
 }
